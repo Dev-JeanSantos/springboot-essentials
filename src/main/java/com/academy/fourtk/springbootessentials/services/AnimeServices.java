@@ -5,12 +5,11 @@ import com.academy.fourtk.springbootessentials.repositories.AnimeRepository;
 import com.academy.fourtk.springbootessentials.requesties.AnimePostRequesteBody;
 import com.academy.fourtk.springbootessentials.requesties.AnimePutRequesteBody;
 import lombok.RequiredArgsConstructor;
-import mapper.AnimeMapper;
+import com.academy.fourtk.springbootessentials.mapper.AnimeMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,6 +20,9 @@ public class AnimeServices {
 
     public List<Anime> listAll() {
         return repository.findAll();
+    }
+    public List<Anime> listAllByName(String name) {
+        return repository.findByName(name);
     }
 
     public Anime findByIdOrThrowBadrequestException(long id) {
