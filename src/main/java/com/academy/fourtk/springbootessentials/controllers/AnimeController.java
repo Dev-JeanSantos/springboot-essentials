@@ -3,7 +3,7 @@ package com.academy.fourtk.springbootessentials.controllers;
 import com.academy.fourtk.springbootessentials.entities.Anime;
 import com.academy.fourtk.springbootessentials.requesties.AnimePostRequesteBody;
 import com.academy.fourtk.springbootessentials.requesties.AnimePutRequesteBody;
-import com.academy.fourtk.springbootessentials.services.AnimeServices;
+import com.academy.fourtk.springbootessentials.services.AnimeService;
 import com.academy.fourtk.springbootessentials.util.DateUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -21,7 +21,7 @@ import java.util.List;
 public class AnimeController {
 //    Logger logger = Logger.getLogger(AnimeController.class.getName());
     private final DateUtil dateUtil;
-    private final AnimeServices service;
+    private final AnimeService service;
 
     @GetMapping
     public ResponseEntity<List<Anime>> list() {
@@ -35,7 +35,7 @@ public class AnimeController {
     }
     @GetMapping(path = "/{id}")
     public ResponseEntity<Anime> findById(@PathVariable long id) {
-        return new ResponseEntity<>(service.findByIdOrThrowBadrequestException(id), HttpStatus.OK);
+        return new ResponseEntity<>(service.findByIdOrThrowBadRequestException(id), HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/{id}")

@@ -1,4 +1,4 @@
-package com.academy.fourtk.springbootessentials.mapper;
+package com.academy.fourtk.springbootessentials.mappers;
 
 import com.academy.fourtk.springbootessentials.entities.Anime;
 import com.academy.fourtk.springbootessentials.requesties.AnimePostRequesteBody;
