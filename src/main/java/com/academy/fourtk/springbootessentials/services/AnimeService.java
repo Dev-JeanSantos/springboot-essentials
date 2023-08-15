@@ -26,7 +26,7 @@ public class AnimeService {
 
     public Anime findByIdOrThrowBadRequestException(long id) {
         return repository.findById(id).orElseThrow(
-                () -> new BadRequestException("Anime not Found "));
+                () -> new BadRequestException("Anime with id:"+ id + " not Found "));
     }
 
     public Anime save(AnimePostRequesteBody animePostRequesteBody) {
