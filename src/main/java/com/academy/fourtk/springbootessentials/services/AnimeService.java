@@ -8,6 +8,7 @@ import com.academy.fourtk.springbootessentials.requesties.AnimePutRequesteBody;
 import lombok.RequiredArgsConstructor;
 import com.academy.fourtk.springbootessentials.mappers.AnimeMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class AnimeService {
                 () -> new BadRequestException("Anime with id:"+ id + " not Found "));
     }
 
+    @Transactional
     public Anime save(AnimePostRequesteBody animePostRequesteBody) {
         return repository.save(AnimeMapper.INSTANCE.toAnime(animePostRequesteBody));
     }
@@ -38,6 +40,7 @@ public class AnimeService {
         repository.delete(findByIdOrThrowBadRequestException(id));
     }
 
+    @Transactional
     public void replace(AnimePutRequesteBody animePutRequesteBody) {
         Anime possibleAnime = findByIdOrThrowBadRequestException(animePutRequesteBody.getId());
         Anime anime = AnimeMapper.INSTANCE.toAnime(animePutRequesteBody);
