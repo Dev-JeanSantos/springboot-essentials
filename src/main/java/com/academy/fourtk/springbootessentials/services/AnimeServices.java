@@ -5,6 +5,7 @@ import com.academy.fourtk.springbootessentials.repositories.AnimeRepository;
 import com.academy.fourtk.springbootessentials.requesties.AnimePostRequesteBody;
 import com.academy.fourtk.springbootessentials.requesties.AnimePutRequesteBody;
 import lombok.RequiredArgsConstructor;
+import mapper.AnimeMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -28,8 +29,7 @@ public class AnimeServices {
     }
 
     public Anime save(AnimePostRequesteBody animePostRequesteBody) {
-        Anime anime = Anime.builder().name(animePostRequesteBody.getName()).build();
-        return repository.save(anime);
+        return repository.save(AnimeMapper.INSTANCE.toAnime(animePostRequesteBody));
     }
 
     public void delete(long id) {
@@ -39,10 +39,8 @@ public class AnimeServices {
 
     public void replace(AnimePutRequesteBody animePutRequesteBody) {
         Anime possibleAnime = findByIdOrThrowBadrequestException(animePutRequesteBody.getId());
-        Anime anime = Anime.builder()
-                .name(animePutRequesteBody.getName())
-                .id(possibleAnime.getId())
-                .build();
+        Anime anime = AnimeMapper.INSTANCE.toAnime(animePutRequesteBody);
+        anime.setId(possibleAnime.getId());
         repository.save(anime);
     }
 }
