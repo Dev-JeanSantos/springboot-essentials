@@ -4,8 +4,10 @@ import com.academy.fourtk.springbootessentials.entities.Anime;
 import com.academy.fourtk.springbootessentials.requesties.AnimePostRequesteBody;
 import com.academy.fourtk.springbootessentials.requesties.AnimePutRequesteBody;
 import com.academy.fourtk.springbootessentials.services.AnimeService;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -25,7 +27,7 @@ public class AnimeController {
     private final AnimeService service;
 
     @GetMapping
-    public ResponseEntity<Page<Anime>> list(Pageable pageable) {
+    public ResponseEntity<Page<Anime>> list(@ParameterObject Pageable pageable) {
         return new ResponseEntity<>(service.listAllPagination(pageable), HttpStatus.OK);
     }
 
