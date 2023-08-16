@@ -16,6 +16,7 @@ public class AnimeCreator {
     }
     public static Anime createValidUpdateAnime() {
         return Anime.builder()
+                .id(1L)
                 .name("Dragon Ball Z")
                 .build();
     }
