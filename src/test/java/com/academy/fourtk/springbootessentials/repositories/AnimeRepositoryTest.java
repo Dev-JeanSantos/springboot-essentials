@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.List;
+
 @DataJpaTest
 @DisplayName("Tests of repository")
 class AnimeRepositoryTest {
@@ -27,6 +29,27 @@ class AnimeRepositoryTest {
         Assertions.assertThat(saveAnime.getId()).isNotNull();
         Assertions.assertThat(saveAnime.getName()).isEqualTo(anime.getName());
 
+    }
+    @Test
+    @DisplayName("find by name returns list of anime when sucessfull")
+    public void findByName_ReturnsListOfAnime_WhenSucessfull() {
+        Anime anime = createAnime();
+
+        Anime saveAnime = this.repository.save(anime);
+        String name = saveAnime.getName();
+
+        List<Anime> animes = repository.findByName(name);
+
+        Assertions.assertThat(animes).isNotEmpty().contains(saveAnime);
+    }
+
+    @Test
+    @DisplayName("find by name returns empty list  when anime is not found")
+    public void findByName_ReturnsEmptyList_WhenAnimeIsNotFound() {
+
+        List<Anime> animes = repository.findByName("Xerxes");
+
+        Assertions.assertThat(animes).isEmpty();
     }
 
     private Anime createAnime() {
