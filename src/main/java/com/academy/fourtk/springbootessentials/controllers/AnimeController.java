@@ -42,18 +42,18 @@ public class AnimeController {
         return new ResponseEntity<>(service.findByIdOrThrowBadRequestException(id), HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "/{id}")
+    @DeleteMapping(path = "/admin/{id}")
     public ResponseEntity<Void> delete(@PathVariable long id) {
         service.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping
+    @PutMapping(path = "/admin")
     public ResponseEntity<Void> replace(@Valid @RequestBody AnimePutRequesteBody animePutRequesteBody) {
         service.replace(animePutRequesteBody);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    @PostMapping
+    @PostMapping(path = "/admin")
     public ResponseEntity<Anime> save(@Valid @RequestBody AnimePostRequesteBody animePostRequesteBody) {
         return new ResponseEntity<>(service.save(animePostRequesteBody), HttpStatus.CREATED);
     }

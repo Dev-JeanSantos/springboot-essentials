@@ -32,12 +32,12 @@ public class SpringClient {
 
         //TESTANDO POST COM POSTFOROBJECT
         Anime DBZ = Anime.builder().name("DBZ").build();
-        Anime newAnime = new RestTemplate().postForObject("http://localhost:8080/api/v1/animes/", DBZ, Anime.class);
+        Anime newAnime = new RestTemplate().postForObject("http://localhost:8080/api/v1/animes/admin/", DBZ, Anime.class);
         log.info("saved anime {}", newAnime);
 
         //TESTANDO POST COM EXCHANGE
         Anime samuraiChamploo = Anime.builder().name("Samurai Champloo").build();
-        ResponseEntity<Anime> samuraiChamplooSaved = new RestTemplate().exchange("http://localhost:8080/api/v1/animes/",
+        ResponseEntity<Anime> samuraiChamplooSaved = new RestTemplate().exchange("http://localhost:8080/api/v1/animes/admin/",
                 HttpMethod.POST,
                 new HttpEntity<>(samuraiChamploo, createJsonHeader()),
                 Anime.class);
@@ -46,14 +46,14 @@ public class SpringClient {
         //TESTANDO UPDATE COM EXCHANGE
         Anime animeUpdate = samuraiChamplooSaved.getBody();
         animeUpdate.setName("Samurai Champloo 2");
-        ResponseEntity<Void> animePut = new RestTemplate().exchange("http://localhost:8080/api/v1/animes/",
+        ResponseEntity<Void> animePut = new RestTemplate().exchange("http://localhost:8080/api/v1/animes/admin/",
                 HttpMethod.PUT,
                 new HttpEntity<>(animeUpdate, createJsonHeader()),
                 Void.class);
         log.info(animeUpdate);
 
         //TESTANDO DELETE COM EXCHANGE
-        ResponseEntity<Void> animeDelete = new RestTemplate().exchange("http://localhost:8080/api/v1/animes/{id}",
+        ResponseEntity<Void> animeDelete = new RestTemplate().exchange("http://localhost:8080/api/v1/animes/admin/{id}",
                 HttpMethod.DELETE,
                 null,
                 Void.class,

@@ -115,7 +115,7 @@ public class AnimeControllerIT {
     void save_ReturnsAnime_WhenSuccesfull() {
         AnimePostRequesteBody animePostRequestBody = AnimePostRequestBodyCreate.createAnimePostrequestBody();
 
-        ResponseEntity<Anime> animeResponseEntity = testRestTemplate.postForEntity("/api/v1/animes/", animePostRequestBody, Anime.class);
+        ResponseEntity<Anime> animeResponseEntity = testRestTemplate.postForEntity("/api/v1/animes/admin/", animePostRequestBody, Anime.class);
 
         Assertions.assertThat(animeResponseEntity).isNotNull();
         Assertions.assertThat(animeResponseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
@@ -132,7 +132,7 @@ public class AnimeControllerIT {
         saveAnime.setName("Iron Maiden");
 
         ResponseEntity<Void> animeResponseEntity = testRestTemplate.exchange(
-                "/api/v1/animes/",
+                "/api/v1/animes/admin/",
                 HttpMethod.PUT,
                 new HttpEntity<>(saveAnime),
                 Void.class);
@@ -147,7 +147,7 @@ public class AnimeControllerIT {
         Anime saveAnime = repository.save(AnimeCreator.createAnimeToBeSaved());
 
         ResponseEntity<Void> animeResponseEntity = testRestTemplate.exchange(
-                "/api/v1/animes/{id}",
+                "/api/v1/animes/admin/{id}",
                 HttpMethod.DELETE,
                 new HttpEntity<>(saveAnime),
                 Void.class,

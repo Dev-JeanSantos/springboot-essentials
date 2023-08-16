@@ -1,4 +1,4 @@
-package com.academy.fourtk.springbootessentials.configurer;
+package com.academy.fourtk.springbootessentials.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.PageRequest;
