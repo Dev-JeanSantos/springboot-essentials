@@ -1,6 +1,7 @@
 package com.academy.fourtk.springbootessentials.repositories;
 
 import com.academy.fourtk.springbootessentials.entities.Anime;
+import com.academy.fourtk.springbootessentials.utils.AnimeCreator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,7 @@ class AnimeRepositoryTest {
     @DisplayName("saved persitence anime when sucessful")
     //NOME DO METODO A TESTAR_O QUE ELE PRECISA FAZER_O RESULTADO DO METODO
     public void saved_PersitenceAnime_WhenSucessful() {
-        Anime anime = createAnime();
+        Anime anime = AnimeCreator.createAnimeToBeSaved();
 
         Anime saveAnime = this.repository.save(anime);
 
@@ -36,7 +37,7 @@ class AnimeRepositoryTest {
     @Test
     @DisplayName("saved update anime when sucessful")
     public void saved_UpdateAnime_WhenSucessful() {
-        Anime anime = createAnime();
+        Anime anime = AnimeCreator.createAnimeToBeSaved();
 
         Anime saveAnime = this.repository.save(anime);
         saveAnime.setName("DBZ");
@@ -50,7 +51,7 @@ class AnimeRepositoryTest {
     @Test
     @DisplayName("find by name returns list of anime when sucessfull")
     public void findByName_ReturnsListOfAnime_WhenSucessfull() {
-        Anime anime = createAnime();
+        Anime anime = AnimeCreator.createAnimeToBeSaved();
 
         Anime saveAnime = this.repository.save(anime);
         String name = saveAnime.getName();
@@ -79,11 +80,5 @@ class AnimeRepositoryTest {
         Assertions.assertThatExceptionOfType(ConstraintViolationException.class)
                 .isThrownBy(() -> repository.save(anime))
                 .withMessageContaining("The anime name cannot be empty");
-    }
-
-    private Anime createAnime() {
-        return Anime.builder()
-                .name("Cavaleiro do Zodíaco")
-                .build();
     }
 }

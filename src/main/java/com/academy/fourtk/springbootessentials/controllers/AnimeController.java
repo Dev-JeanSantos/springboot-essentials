@@ -4,7 +4,6 @@ import com.academy.fourtk.springbootessentials.entities.Anime;
 import com.academy.fourtk.springbootessentials.requesties.AnimePostRequesteBody;
 import com.academy.fourtk.springbootessentials.requesties.AnimePutRequesteBody;
 import com.academy.fourtk.springbootessentials.services.AnimeService;
-import com.academy.fourtk.springbootessentials.util.DateUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
@@ -14,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Log4j2
@@ -23,12 +21,10 @@ import java.util.List;
 @RequestMapping("api/v1/animes")
 public class AnimeController {
 //    Logger logger = Logger.getLogger(AnimeController.class.getName());
-    private final DateUtil dateUtil;
     private final AnimeService service;
 
     @GetMapping
     public ResponseEntity<Page<Anime>> list(Pageable pageable) {
-       log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
         return new ResponseEntity<>(service.listAllPagination(pageable), HttpStatus.OK);
     }
 
