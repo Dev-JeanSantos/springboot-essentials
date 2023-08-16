@@ -20,6 +20,14 @@
 		<springdoc-openapi-ui.version>1.6.9</springdoc-openapi-ui.version>
 	</properties>
 	<dependencies>
+
+		<!-- SPRING ACTUATOR -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<!-- SPRING SWAGGER -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-ui</artifactId>
