@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
-public class RestExceptionHandler {
+public class RestExceptionHandler{
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<BadExceptionRequestDetails> handlerBadRequestException(BadRequestException badRequestException){
         return new ResponseEntity<>(
@@ -37,12 +37,12 @@ public class RestExceptionHandler {
 
                 ValidationExceptionDetails.builder()
                         .timestamp(LocalDateTime.now())
-                        .status(HttpStatus.BAD_REQUEST.value())
+                        .status(HttpStatus.UNPROCESSABLE_ENTITY.value())
                         .title("Bad request Exception, Invalid Fields")
                         .details("Check the fields error")
                         .developerMessage(methodArgumentNotValidException.getClass().getName())
                         .fields(field)
                         .fieldMessage(fieldMessage)
-                        .build(), HttpStatus.BAD_REQUEST);
+                        .build(), HttpStatus.UNPROCESSABLE_ENTITY);
     }
 }

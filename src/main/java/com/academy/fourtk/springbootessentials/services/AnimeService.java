@@ -7,6 +7,8 @@ import com.academy.fourtk.springbootessentials.requesties.AnimePostRequesteBody;
 import com.academy.fourtk.springbootessentials.requesties.AnimePutRequesteBody;
 import lombok.RequiredArgsConstructor;
 import com.academy.fourtk.springbootessentials.mappers.AnimeMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,8 +20,8 @@ public class AnimeService {
 
     private final AnimeRepository repository;
 
-    public List<Anime> listAll() {
-        return repository.findAll();
+    public Page<Anime> listAll(Pageable pageable) {
+        return repository.findAll(pageable);
     }
     public List<Anime> listAllByName(String name) {
         return repository.findByName(name);

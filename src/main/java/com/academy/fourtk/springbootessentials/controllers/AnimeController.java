@@ -7,6 +7,8 @@ import com.academy.fourtk.springbootessentials.services.AnimeService;
 import com.academy.fourtk.springbootessentials.util.DateUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,10 +27,10 @@ public class AnimeController {
     private final AnimeService service;
 
     @GetMapping
-    public ResponseEntity<List<Anime>> list() {
+    public ResponseEntity<Page<Anime>> list(Pageable pageable) {
 //        logger.info();
        log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
-        return new ResponseEntity<>(service.listAll(), HttpStatus.OK);
+        return new ResponseEntity<>(service.listAll(pageable), HttpStatus.OK);
     }
     @GetMapping(path = "/find")
     public ResponseEntity<List<Anime>> listByName(@RequestParam String name) {
@@ -46,7 +48,7 @@ public class AnimeController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> replace(@RequestBody AnimePutRequesteBody animePutRequesteBody) {
+    public ResponseEntity<Void> replace(@Valid @RequestBody AnimePutRequesteBody animePutRequesteBody) {
         service.replace(animePutRequesteBody);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
