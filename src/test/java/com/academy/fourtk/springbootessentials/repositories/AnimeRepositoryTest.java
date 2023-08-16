@@ -6,7 +6,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 @DataJpaTest
@@ -30,6 +32,21 @@ class AnimeRepositoryTest {
         Assertions.assertThat(saveAnime.getName()).isEqualTo(anime.getName());
 
     }
+
+    @Test
+    @DisplayName("saved update anime when sucessful")
+    public void saved_UpdateAnime_WhenSucessful() {
+        Anime anime = createAnime();
+
+        Anime saveAnime = this.repository.save(anime);
+        saveAnime.setName("DBZ");
+        Anime updateAnime = repository.save(saveAnime);
+
+        Assertions.assertThat(updateAnime).isNotNull();
+        Assertions.assertThat(saveAnime.getId()).isNotNull();
+        Assertions.assertThat(updateAnime.getName()).isEqualTo(saveAnime.getName());
+
+    }
     @Test
     @DisplayName("find by name returns list of anime when sucessfull")
     public void findByName_ReturnsListOfAnime_WhenSucessfull() {
@@ -50,6 +67,18 @@ class AnimeRepositoryTest {
         List<Anime> animes = repository.findByName("Xerxes");
 
         Assertions.assertThat(animes).isEmpty();
+    }
+
+    @Test
+    @DisplayName("save throw ConstraintValidationException when name is empty")
+    public void save_ThrowConstraintValidationException_WhenNameisEmpty() {
+        Anime anime = new Anime();
+//        Assertions.assertThatThrownBy(() -> repository.save(anime))
+//                .isInstanceOf(ConstraintViolationException.class);
+
+        Assertions.assertThatExceptionOfType(ConstraintViolationException.class)
+                .isThrownBy(() -> repository.save(anime))
+                .withMessageContaining("The anime name cannot be empty");
     }
 
     private Anime createAnime() {
