@@ -7,10 +7,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import javax.validation.ConstraintViolationException;
 import java.util.List;
+import java.util.Optional;
 
 @DataJpaTest
 @DisplayName("Tests of repository")
@@ -25,7 +25,7 @@ class AnimeRepositoryTest {
     public void saved_PersitenceAnime_WhenSucessful() {
         Anime anime = AnimeCreator.createAnimeToBeSaved();
 
-        Anime saveAnime = this.repository.save(anime);
+        Anime saveAnime = repository.save(anime);
 
         //AssertThat => verfique que
         Assertions.assertThat(saveAnime).isNotNull();
@@ -48,6 +48,7 @@ class AnimeRepositoryTest {
         Assertions.assertThat(updateAnime.getName()).isEqualTo(saveAnime.getName());
 
     }
+
     @Test
     @DisplayName("find by name returns list of anime when sucessfull")
     public void findByName_ReturnsListOfAnime_WhenSucessfull() {
@@ -80,5 +81,51 @@ class AnimeRepositoryTest {
         Assertions.assertThatExceptionOfType(ConstraintViolationException.class)
                 .isThrownBy(() -> repository.save(anime))
                 .withMessageContaining("The anime name cannot be empty");
+    }
+    @Test
+    @DisplayName("save update anime when sucessful")
+    public void update_UpdateAnime_WhenSucessful() {
+
+        Anime anime = AnimeCreator.createAnimeToBeSaved();
+        Anime savedAnime = repository.save(anime);
+
+        savedAnime.setName("DBZ");
+
+        Anime updateAnime = repository.save(savedAnime);
+
+        Assertions.assertThat(updateAnime).isNotNull();
+        Assertions.assertThat(updateAnime.getId()).isNotNull();
+        Assertions.assertThat(updateAnime.getName()).isEqualTo(savedAnime.getName());
+
+    }
+
+    @Test
+    @DisplayName("delete remove anime when sucessful")
+    public void delete_RemoveAnime_WhenSucessful() {
+
+        Anime anime = AnimeCreator.createAnimeToBeSaved();
+        Anime savedAnime = repository.save(anime);
+
+        repository.delete(savedAnime);
+        Optional<Anime> possibleAnime = repository.findById(savedAnime.getId());
+
+        Assertions.assertThat(possibleAnime).isEmpty();
+    }
+
+
+    @Test
+    @DisplayName("find by name list of anime when sucessful")
+    public void findByName_ListOfAnime_WhenSucessful() {
+
+        Anime anime = AnimeCreator.createAnimeToBeSaved();
+        Anime savedAnime = repository.save(anime);
+        String name = savedAnime.getName();
+
+        repository.findByName(name);
+
+        Optional<Anime> possibleAnime = repository.findById(savedAnime.getId());
+
+        Assertions.assertThat(possibleAnime).isNotEmpty();
+        Assertions.assertThat(possibleAnime).contains(anime);
     }
 }
