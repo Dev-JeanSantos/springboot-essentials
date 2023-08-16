@@ -20,8 +20,11 @@ public class AnimeService {
 
     private final AnimeRepository repository;
 
-    public Page<Anime> listAll(Pageable pageable) {
+    public Page<Anime> listAllPagination(Pageable pageable) {
         return repository.findAll(pageable);
+    }
+    public List<Anime> listAll() {
+        return repository.findAll();
     }
     public List<Anime> listAllByName(String name) {
         return repository.findByName(name);
